@@ -24,12 +24,49 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "slug": "jquery-annotated-source",
             "isFileHeader": true
           },
-          "depth": 1
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Providing Your Expertise",
+                "slug": "providing-your-expertise"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Currently Documented: jQuery v1.6.2",
+                "slug": "currently-documented-jquery-v162"
+              },
+              "depth": 2
+            }
+          ]
         },
         "title": "jQuery Annotated Source"
       },
       "depth": 1,
-      "outline": []
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Providing Your Expertise",
+            "slug": "providing-your-expertise"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Currently Documented: jQuery v1.6.2",
+            "slug": "currently-documented-jquery-v162"
+          },
+          "depth": 2
+        }
+      ]
     }, {
       "type": "file",
       "data": {
@@ -42,18 +79,15 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/01-core.js",
         "projectPath": "jquery-1.6.2/01-core.js",
         "targetPath": "01-core",
-        "title": "01-core"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
+            "level": 1,
             "title": "Chapter 1: Core",
-            "slug": "chapter-1-core"
+            "slug": "chapter-1-core",
+            "isFileHeader": true
           },
-          "depth": 2,
+          "depth": 1,
           "children": [
             {
               "type": "heading",
@@ -73,6 +107,27 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "depth": 3
             }
           ]
+        },
+        "title": "Chapter 1: Core"
+      },
+      "depth": 1,
+      "outline": [
+        {
+          "type": "heading",
+          "data": {
+            "level": 3,
+            "title": "jQuery prototype",
+            "slug": "jquery-prototype"
+          },
+          "depth": 3
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 3,
+            "title": "Utilities",
+            "slug": "utilities"
+          },
+          "depth": 3
         }
       ]
     }, {
@@ -87,20 +142,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/02-deferred.js",
         "projectPath": "jquery-1.6.2/02-deferred.js",
         "targetPath": "02-deferred",
-        "title": "02-deferred"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
+            "level": 1,
             "title": "Chapter 2: Deferred",
-            "slug": "chapter-2-deferred"
+            "slug": "chapter-2-deferred",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 2: Deferred"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -113,20 +168,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/03-support.js",
         "projectPath": "jquery-1.6.2/03-support.js",
         "targetPath": "03-support",
-        "title": "03-support"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
+            "level": 1,
             "title": "Chapter 3: Support",
-            "slug": "chapter-3-support"
+            "slug": "chapter-3-support",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 3: Support"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -139,20 +194,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/04-data.js",
         "projectPath": "jquery-1.6.2/04-data.js",
         "targetPath": "04-data",
-        "title": "04-data"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
+            "level": 1,
             "title": "Chapter 4: Data",
-            "slug": "chapter-4-data"
+            "slug": "chapter-4-data",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 4: Data"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -165,20 +220,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/05-queue.js",
         "projectPath": "jquery-1.6.2/05-queue.js",
         "targetPath": "05-queue",
-        "title": "05-queue"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Queue",
-            "slug": "queue"
+            "level": 1,
+            "title": "Chapter 5: Queue",
+            "slug": "chapter-5-queue",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 5: Queue"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -191,20 +246,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/06-attributes.js",
         "projectPath": "jquery-1.6.2/06-attributes.js",
         "targetPath": "06-attributes",
-        "title": "06-attributes"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Attributes",
-            "slug": "attributes"
+            "level": 1,
+            "title": "Chapter 6: Attributes",
+            "slug": "chapter-6-attributes",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 6: Attributes"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -217,20 +272,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/07-event.js",
         "projectPath": "jquery-1.6.2/07-event.js",
         "targetPath": "07-event",
-        "title": "07-event"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Events",
-            "slug": "events"
+            "level": 1,
+            "title": "Chapter 7: Events",
+            "slug": "chapter-7-events",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 7: Events"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -243,7 +298,28 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/08-selector.js",
         "projectPath": "jquery-1.6.2/08-selector.js",
         "targetPath": "08-selector",
-        "title": "08-selector"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Chapter 8: Selector",
+            "slug": "chapter-8-selector",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Sizzle CSS Selector Engine",
+                "slug": "sizzle-css-selector-engine"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Chapter 8: Selector"
       },
       "depth": 1,
       "outline": [
@@ -251,8 +327,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "Selector",
-            "slug": "selector"
+            "title": "Sizzle CSS Selector Engine",
+            "slug": "sizzle-css-selector-engine"
           },
           "depth": 2
         }
@@ -269,20 +345,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/09-traversing.js",
         "projectPath": "jquery-1.6.2/09-traversing.js",
         "targetPath": "09-traversing",
-        "title": "09-traversing"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Traversing",
-            "slug": "traversing"
+            "level": 1,
+            "title": "Chapter 9: Traversing",
+            "slug": "chapter-9-traversing",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 9: Traversing"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -295,20 +371,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/10-manipulation.js",
         "projectPath": "jquery-1.6.2/10-manipulation.js",
         "targetPath": "10-manipulation",
-        "title": "10-manipulation"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Manipulation",
-            "slug": "manipulation"
+            "level": 1,
+            "title": "Chapter 10: Manipulation",
+            "slug": "chapter-10-manipulation",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 10: Manipulation"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -321,20 +397,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/11-css.js",
         "projectPath": "jquery-1.6.2/11-css.js",
         "targetPath": "11-css",
-        "title": "11-css"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "CSS",
-            "slug": "css"
+            "level": 1,
+            "title": "Chapter 11: CSS",
+            "slug": "chapter-11-css",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 11: CSS"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -347,19 +423,21 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/12-ajax.js",
         "projectPath": "jquery-1.6.2/12-ajax.js",
         "targetPath": "12-ajax",
-        "title": "12-ajax"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Chapter 12: AJAX",
+            "slug": "chapter-12-ajax",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Chapter 12: AJAX"
       },
       "depth": 1,
       "outline": [
         {
-          "type": "heading",
-          "data": {
-            "level": 2,
-            "title": "AJAX",
-            "slug": "ajax"
-          },
-          "depth": 2
-        }, {
           "type": "heading",
           "data": {
             "level": 1,
@@ -397,20 +475,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/13-effects.js",
         "projectPath": "jquery-1.6.2/13-effects.js",
         "targetPath": "13-effects",
-        "title": "13-effects"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Effects",
-            "slug": "effects"
+            "level": 1,
+            "title": "Chapter 13: Effects",
+            "slug": "chapter-13-effects",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 13: Effects"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -423,20 +501,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/14-offset.js",
         "projectPath": "jquery-1.6.2/14-offset.js",
         "targetPath": "14-offset",
-        "title": "14-offset"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Offset",
-            "slug": "offset"
+            "level": 1,
+            "title": "Chapter 14: Offset",
+            "slug": "chapter-14-offset",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapter 14: Offset"
+      },
+      "depth": 1,
+      "outline": []
     }, {
       "type": "file",
       "data": {
@@ -449,20 +527,20 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/coding/jquery-annotated-source/jquery-1.6.2/15-dimensions.js",
         "projectPath": "jquery-1.6.2/15-dimensions.js",
         "targetPath": "15-dimensions",
-        "title": "15-dimensions"
-      },
-      "depth": 1,
-      "outline": [
-        {
+        "firstHeader": {
           "type": "heading",
           "data": {
-            "level": 2,
-            "title": "Dimensions",
-            "slug": "dimensions"
+            "level": 1,
+            "title": "Chapater 15: Dimensions",
+            "slug": "chapater-15-dimensions",
+            "isFileHeader": true
           },
-          "depth": 2
-        }
-      ]
+          "depth": 1
+        },
+        "title": "Chapater 15: Dimensions"
+      },
+      "depth": 1,
+      "outline": []
     }
   ];
 
