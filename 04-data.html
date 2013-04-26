@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"><head><title>04-data</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="04-data"><meta name="groc-project-path" content="jquery-1.6.2/04-data.js"><meta name="groc-github-url" content="https://github.com/nevir/jquery-annotated-source"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/jquery-annotated-source/blob/master/jquery-1.6.2/04-data.js">jquery-1.6.2/04-data.js</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><p><strong>jQuery Annotated Source</strong>.</p></div></div><div class="code"><div class="wrapper"><span class="c1">//</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><a href="/jquery-annotated-source/">Home</a> | <a href="03-support.html">Previous Chapter</a> | <a href="05-queue.html">Next Chapter</a></p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="chapter-4-data">Chapter 4: Data</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">rbrace</span> <span class="o">=</span> <span class="sr">/^(?:\{.*\}|\[.*\])$/</span><span class="p">,</span>
+  <span class="nx">rmultiDash</span> <span class="o">=</span> <span class="sr">/([a-z])([A-Z])/g</span><span class="p">;</span>
+
+<span class="nx">jQuery</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">cache</span><span class="o">:</span> <span class="p">{},</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Please use with caution</p></div></div><div class="code"><div class="wrapper">  <span class="nx">uuid</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Unique for each copy of jQuery on the page
+Non-digits removed to match rinlinejQuery</p></div></div><div class="code"><div class="wrapper">  <span class="nx">expando</span><span class="o">:</span> <span class="s2">&quot;jQuery&quot;</span> <span class="o">+</span> <span class="p">(</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="p">).</span><span class="nx">replace</span><span class="p">(</span> <span class="sr">/\D/g</span><span class="p">,</span> <span class="s2">&quot;&quot;</span> <span class="p">),</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>The following elements throw uncatchable exceptions if you
+attempt to add expando properties to them.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">noData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;embed&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Ban all objects except for Flash (which handle expandos)</p></div></div><div class="code"><div class="wrapper">    <span class="s2">&quot;object&quot;</span><span class="o">:</span> <span class="s2">&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;applet&quot;</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+
+  <span class="nx">hasData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeType</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">elem</span><span class="p">[</span><span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">]</span> <span class="p">]</span> <span class="o">:</span> <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">];</span>
+
+    <span class="k">return</span> <span class="o">!!</span><span class="nx">elem</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">isEmptyDataObject</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">data</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">pvt</span> <span class="cm">/* Internal Use Only */</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">jQuery</span><span class="p">.</span><span class="nx">acceptData</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">internalKey</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">,</span> <span class="nx">getByName</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">name</span> <span class="o">===</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="nx">thisCache</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We have to handle DOM nodes and JS objects differently because IE6-7
+can't GC object references properly across the DOM-JS boundary</p></div></div><div class="code"><div class="wrapper">      <span class="nx">isNode</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeType</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Only DOM nodes need the global jQuery cache; JS object data is
+attached directly to the object so GC can occur automatically</p></div></div><div class="code"><div class="wrapper">      <span class="nx">cache</span> <span class="o">=</span> <span class="nx">isNode</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">cache</span> <span class="o">:</span> <span class="nx">elem</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Only defining an ID for JS objects if its cache already exists allows
+the code to shortcut on the same path as a DOM node with no cache</p></div></div><div class="code"><div class="wrapper">      <span class="nx">id</span> <span class="o">=</span> <span class="nx">isNode</span> <span class="o">?</span> <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">]</span> <span class="o">:</span> <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Avoid doing any more work than we need to when trying to get data on an
+object that has no data at all</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="o">!</span><span class="nx">id</span> <span class="o">||</span> <span class="p">(</span><span class="nx">pvt</span> <span class="o">&amp;&amp;</span> <span class="nx">id</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">]))</span> <span class="o">&amp;&amp;</span> <span class="nx">getByName</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">id</span> <span class="p">)</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Only DOM nodes need a new unique ID for each element since their data
+ends up in the global cache</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="nx">isNode</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">id</span> <span class="o">=</span> <span class="o">++</span><span class="nx">jQuery</span><span class="p">.</span><span class="nx">uuid</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">id</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>TODO: This is a hack for 1.5 ONLY. Avoids exposing jQuery
+metadata on plain JS objects when the object is serialized using
+JSON.stringify</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">isNode</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">].</span><span class="nx">toJSON</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">noop</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>An object can be passed to jQuery.data instead of a key/value pair; this gets
+shallow copied over onto the existing cache</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">name</span> <span class="o">===</span> <span class="s2">&quot;object&quot;</span> <span class="o">||</span> <span class="k">typeof</span> <span class="nx">name</span> <span class="o">===</span> <span class="s2">&quot;function&quot;</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">pvt</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">],</span> <span class="nx">name</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">],</span> <span class="nx">name</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">thisCache</span> <span class="o">=</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">];</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Internal jQuery data is stored in a separate object inside the object's data
+cache in order to avoid key collisions between internal data and user-defined
+data</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">pvt</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">thisCache</span><span class="p">[</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="p">}</span>
+
+      <span class="nx">thisCache</span> <span class="o">=</span> <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">internalKey</span> <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">camelCase</span><span class="p">(</span> <span class="nx">name</span> <span class="p">)</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">data</span><span class="p">;</span>
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>TODO: This is a hack for 1.5 ONLY. It will be removed in 1.6. Users should
+not attempt to inspect the internal events object using jQuery.data, as this
+internal data object is undocumented and subject to change.</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">name</span> <span class="o">===</span> <span class="s2">&quot;events&quot;</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">thisCache</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">internalKey</span> <span class="p">].</span><span class="nx">events</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">getByName</span> <span class="o">?</span> </div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Check for both converted-to-camel and non-converted data property names</p></div></div><div class="code"><div class="wrapper">      <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">camelCase</span><span class="p">(</span> <span class="nx">name</span> <span class="p">)</span> <span class="p">]</span> <span class="o">||</span> <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="o">:</span>
+      <span class="nx">thisCache</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="nx">removeData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">pvt</span> <span class="cm">/* Internal Use Only */</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">jQuery</span><span class="p">.</span><span class="nx">acceptData</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">internalKey</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">,</span> <span class="nx">isNode</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeType</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>See jQuery.data for more information</p></div></div><div class="code"><div class="wrapper">      <span class="nx">cache</span> <span class="o">=</span> <span class="nx">isNode</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">cache</span> <span class="o">:</span> <span class="nx">elem</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>See jQuery.data for more information</p></div></div><div class="code"><div class="wrapper">      <span class="nx">id</span> <span class="o">=</span> <span class="nx">isNode</span> <span class="o">?</span> <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">]</span> <span class="o">:</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If there is already no cache entry for this object, there is no
+purpose in continuing</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">name</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">thisCache</span> <span class="o">=</span> <span class="nx">pvt</span> <span class="o">?</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="o">:</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">];</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">thisCache</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">delete</span> <span class="nx">thisCache</span><span class="p">[</span> <span class="nx">name</span> <span class="p">];</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If there is no data left in the cache, we want to continue
+and let the cache object itself get destroyed</p></div></div><div class="code"><div class="wrapper">        <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">isEmptyDataObject</span><span class="p">(</span><span class="nx">thisCache</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>See jQuery.data for more information</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">pvt</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">];</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Don't destroy the parent cache unless the internal data object
+had been the only thing left in it</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">isEmptyDataObject</span><span class="p">(</span><span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">])</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">internalCache</span> <span class="o">=</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">];</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Browsers that fail expando deletion also refuse to delete expandos on
+the window, but it will allow it on all other JS objects; other browsers
+don't care</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">support</span><span class="p">.</span><span class="nx">deleteExpando</span> <span class="o">||</span> <span class="nx">cache</span> <span class="o">!=</span> <span class="nb">window</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We destroyed the entire user cache at once because it's faster than
+iterating through each key, but we need to continue to persist internal
+data if it existed</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span> <span class="nx">internalCache</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>TODO: This is a hack for 1.5 ONLY. Avoids exposing jQuery
+metadata on plain JS objects when the object is serialized using
+JSON.stringify</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">isNode</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">].</span><span class="nx">toJSON</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">noop</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="nx">cache</span><span class="p">[</span> <span class="nx">id</span> <span class="p">][</span> <span class="nx">internalKey</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">internalCache</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Otherwise, we need to eliminate the expando on the node to avoid
+false lookups in the cache for entries that no longer exist</p></div></div><div class="code"><div class="wrapper">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">isNode</span> <span class="p">)</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>IE does not allow us to delete expando properties from nodes,
+nor does it have a removeAttribute function on Document nodes;
+we must handle all of these cases</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">support</span><span class="p">.</span><span class="nx">deleteExpando</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">delete</span> <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">];</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">removeAttribute</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">[</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">expando</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>For internal use only.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">_data</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">data</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="kc">true</span> <span class="p">);</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A method for determining if a DOM node can handle the data expando</p></div></div><div class="code"><div class="wrapper">  <span class="nx">acceptData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">elem</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeName</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">match</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">noData</span><span class="p">[</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="p">];</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">match</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="nx">match</span> <span class="o">===</span> <span class="kc">true</span> <span class="o">||</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s2">&quot;classid&quot;</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">match</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">jQuery</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">data</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">key</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">attr</span> <span class="o">=</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attributes</span><span class="p">,</span> <span class="nx">name</span><span class="p">;</span>
+          <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="nx">name</span> <span class="o">=</span> <span class="nx">attr</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span> <span class="nx">name</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span> <span class="s2">&quot;data-&quot;</span> <span class="p">)</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+              <span class="nx">name</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">camelCase</span><span class="p">(</span> <span class="nx">name</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">);</span>
+
+              <span class="nx">dataAttr</span><span class="p">(</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">data</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="p">);</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">key</span> <span class="o">===</span> <span class="s2">&quot;object&quot;</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="nx">key</span> <span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">);</span>
+    <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">?</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">value</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;getData&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]]);</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Try to fetch any internally stored data first</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">key</span> <span class="p">);</span>
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">dataAttr</span><span class="p">(</span> <span class="k">this</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">data</span> <span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="nx">data</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">?</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span> <span class="o">:</span>
+        <span class="nx">data</span><span class="p">;</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">$this</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">(</span> <span class="k">this</span> <span class="p">),</span>
+          <span class="nx">args</span> <span class="o">=</span> <span class="p">[</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">value</span> <span class="p">];</span>
+
+        <span class="nx">$this</span><span class="p">.</span><span class="nx">triggerHandler</span><span class="p">(</span> <span class="s2">&quot;setData&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">,</span> <span class="nx">args</span> <span class="p">);</span>
+        <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="p">);</span>
+        <span class="nx">$this</span><span class="p">.</span><span class="nx">triggerHandler</span><span class="p">(</span> <span class="s2">&quot;changeData&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">,</span> <span class="nx">args</span> <span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="nx">removeData</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">key</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">jQuery</span><span class="p">.</span><span class="nx">removeData</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="nx">key</span> <span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">dataAttr</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">data</span> <span class="p">)</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If nothing was found internally, try to fetch any
+data from the HTML5 data-* attribute</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="p">(</span> <span class="nx">data</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;data-&quot;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="nx">rmultiDash</span><span class="p">,</span> <span class="s2">&quot;$1-$2&quot;</span> <span class="p">).</span><span class="nx">toLowerCase</span><span class="p">();</span>
+
+    <span class="nx">data</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span> <span class="nx">name</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="k">typeof</span> <span class="nx">data</span> <span class="o">===</span> <span class="s2">&quot;string&quot;</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">try</span> <span class="p">{</span>
+        <span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span> <span class="o">===</span> <span class="s2">&quot;true&quot;</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span>
+        <span class="nx">data</span> <span class="o">===</span> <span class="s2">&quot;false&quot;</span> <span class="o">?</span> <span class="kc">false</span> <span class="o">:</span>
+        <span class="nx">data</span> <span class="o">===</span> <span class="s2">&quot;null&quot;</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span>
+        <span class="o">!</span><span class="nx">jQuery</span><span class="p">.</span><span class="nb">isNaN</span><span class="p">(</span> <span class="nx">data</span> <span class="p">)</span> <span class="o">?</span> <span class="nb">parseFloat</span><span class="p">(</span> <span class="nx">data</span> <span class="p">)</span> <span class="o">:</span>
+          <span class="nx">rbrace</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span> <span class="nx">data</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">parseJSON</span><span class="p">(</span> <span class="nx">data</span> <span class="p">)</span> <span class="o">:</span>
+          <span class="nx">data</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">catch</span><span class="p">(</span> <span class="nx">e</span> <span class="p">)</span> <span class="p">{}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Make sure we set the data so it isn't changed later</p></div></div><div class="code"><div class="wrapper">      <span class="nx">jQuery</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span> <span class="nx">elem</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">data</span> <span class="p">);</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+<span class="p">}</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>TODO: This is a hack for 1.5 ONLY to allow objects with a single toJSON
+property to be considered empty objects; this property always exists in
+order to make sure JSON.stringify does not expose internal metadata</p></div></div><div class="code"><div class="wrapper"><span class="kd">function</span> <span class="nx">isEmptyDataObject</span><span class="p">(</span> <span class="nx">obj</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">name</span> <span class="o">!==</span> <span class="s2">&quot;toJSON&quot;</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span></div></div></div></div></body></html>
