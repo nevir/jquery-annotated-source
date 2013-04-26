@@ -38,8 +38,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "Currently Documented: jQuery v1.6.2",
-                "slug": "currently-documented-jquery-v162"
+                "title": "Currently Documented: v1.6.2",
+                "slug": "currently-documented-v162"
               },
               "depth": 2
             }
@@ -61,8 +61,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "Currently Documented: jQuery v1.6.2",
-            "slug": "currently-documented-jquery-v162"
+            "title": "Currently Documented: v1.6.2",
+            "slug": "currently-documented-v162"
           },
           "depth": 2
         }
