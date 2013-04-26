@@ -9,6 +9,31 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
+          "nameMatchers": [".md"],
+          "commentsOnly": true,
+          "name": "Markdown"
+        },
+        "sourcePath": "/Users/ian/coding/jquery-annotated-source/readme.md",
+        "projectPath": "readme.md",
+        "targetPath": "index",
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "jQuery Annotated Source",
+            "slug": "jquery-annotated-source",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "jQuery Annotated Source"
+      },
+      "depth": 1,
+      "outline": []
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
           "nameMatchers": [".js"],
           "pygmentsLexer": "javascript",
           "singleLineComment": ["//"],
